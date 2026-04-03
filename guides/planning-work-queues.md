@@ -121,9 +121,14 @@ Recommended selection rule:
 2. Read the ordered list in `README.md`
 3. Pick the first item marked `ready`
 4. Check whether the suggested branch/worktree already exists
-5. If it exists, assume another agent may own it and skip to the next `ready`
-   item unless the file clearly says otherwise
-6. Mark the chosen item `in-progress`
+5. If it exists, do not treat that alone as active ownership. Look for
+   evidence such as:
+   - a recent commit on the branch
+   - an open PR tied to the task
+   - the task file already marked `in-progress`
+6. If the branch/worktree exists but there is no clear evidence of active
+   ownership, treat it as stale and continue with the task
+7. Mark the chosen item `in-progress`
 
 If the task queue lives in git, commit and push the status change promptly so
 other agents see that the item has been claimed.
@@ -134,7 +139,7 @@ This uses both:
 - secondary signal: branch/worktree existence
 
 Do not rely only on worktrees, because stale worktrees can exist without active
-ownership.
+ownership. Existing branches/worktrees are a hint, not a lock.
 
 ## When To Use GitHub Issues
 

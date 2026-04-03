@@ -51,10 +51,12 @@ Recommended rule:
 0. fetch remote state first if multiple agents are active
 1. pick the highest-priority task still marked `ready`
 2. check whether the suggested branch/worktree already exists
-3. if it exists, assume another agent may already own it and skip to the next
-   `ready` item unless the task file says otherwise
-4. mark the chosen task `in-progress`
-5. commit and push that status change promptly if the queue is shared through git
+3. if it exists, do not treat that alone as active ownership; check for a
+   recent commit, an open PR, or the task already marked `in-progress`
+4. if there is no clear evidence of active ownership, treat the branch/worktree
+   as stale and continue
+5. mark the chosen task `in-progress`
+6. commit and push that status change promptly if the queue is shared through git
 
 ### Shell Environment
 - **Default shell**: Specify your default shell (Fish, Zsh, etc.)
