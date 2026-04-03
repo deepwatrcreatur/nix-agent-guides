@@ -10,14 +10,10 @@ This repository provides comprehensive guidance for developers using AI coding a
 
 ### 📖 [Guides](./guides/)
 - **[Git Workflows](./guides/git-workflows.md)** - Git worktrees, branch management, and collaboration patterns
+- **[Planning Work Queues](./guides/planning-work-queues.md)** - Small-file planning systems for parallel agents
 - **[tmux Sessions](./guides/tmux-sessions.md)** - Remote session management and persistent workflows
-- **[Nix System Management](./guides/nix-systems.md)** - Rebuilds, testing, and multi-platform considerations
 - **[Project Setup](./guides/project-setup.md)** - Repository organization and configuration patterns
 - **[Best Practices](./guides/best-practices.md)** - General workflow tips and optimization strategies
-
-### 🎯 [Examples](./examples/)
-- **[Nix Flakes](./examples/nix-flakes/)** - Example flake structures and patterns
-- **[Workflows](./examples/workflows/)** - Common development workflow scripts
 
 ### 📝 [Templates](./templates/)
 - **[Project Instructions](./templates/project-instructions.md)** - Template for project-specific agent guidance
@@ -27,6 +23,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 1. **For New Projects**: Start with the [project setup guide](./guides/project-setup.md)
 2. **For Remote Work**: Check out [tmux session management](./guides/tmux-sessions.md)
 3. **For Complex Branching**: Learn [git worktree patterns](./guides/git-workflows.md)
+4. **For Parallel Agent Planning**: Use the [planning work queue guide](./guides/planning-work-queues.md)
 
 ## Integration with Existing Projects
 

@@ -66,3 +66,28 @@ git commit --no-gpg-sign -m "feat: add feature"
 3. **Clean up completed worktrees regularly**
 4. **Use worktrees for risky experiments**
 5. **Maintain one stable worktree as fallback**
+
+## Worktrees and Task Ownership
+
+When several agents are working in parallel, pair worktrees with a task queue:
+
+- one worktree per task
+- one branch per task
+- a suggested branch name written into the task file
+
+Important:
+
+- worktrees are a useful ownership signal, but not the only one
+- a stale worktree may exist without an active owner
+- use a task-file status header as the primary source of truth
+
+Recommended rule:
+
+1. pick the highest-priority task still marked `ready`
+2. check whether its suggested worktree/branch already exists
+3. if it exists, assume another agent may own it and skip to the next task
+4. once claimed, mark the task `in-progress`
+
+See also:
+
+- [`planning-work-queues.md`](./planning-work-queues.md)

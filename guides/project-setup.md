@@ -34,6 +34,7 @@ project/
 │   │   └── default.nix          # Package definition
 │   └── default.nix              # Package registry/wiring
 ├── docs/                        # Long-form documentation
+│   └── work-items/              # Small-file planning queue for agents
 ├── reference/                   # Reference materials
 ├── fixtures/                    # Test fixtures
 └── examples/                    # Example configurations
@@ -46,6 +47,41 @@ project/
 3. **Clear separation** - Separate shared modules, overlays, and applications into distinct directories
 4. **Custom packages** - Use `pkgs/<name>/default.nix` and wire through `pkgs/default.nix`
 5. **Documentation hierarchy** - Use `docs/` for long-form, `README.md` for overview
+6. **Plan in git for agent execution** - Keep concrete work items in repo files, not only in chat or issue threads
+
+## Planning Structure For Agent-Heavy Projects
+
+For projects with frequent parallel agent work, add a planning queue like:
+
+```text
+docs/work-items/
+  START-HERE.md
+  README.md
+  agent-prompts.md
+  01-some-task.md
+  02-another-task.md
+```
+
+Recommended role of each file:
+
+- `START-HERE.md`
+  one file an agent can read to begin contributing
+- `README.md`
+  ranked task list and status model
+- `agent-prompts.md`
+  reusable prompts for dispatching tasks to agents
+- task files
+  one PR-sized implementation stream each
+
+This works well because:
+
+- the queue stays close to the code
+- tasks are easy to claim and delete when done
+- agents do not need to load a massive roadmap to get started
+
+For more detail, see:
+
+- [`planning-work-queues.md`](./planning-work-queues.md)
 
 ## Standard Build and Development Commands
 
@@ -228,6 +264,7 @@ Examples:
 - **Group edits by scope** - host, module, or functional area
 - **One logical change per commit** - easier to review and revert
 - **Include context** in commit messages about why, not just what
+- **Avoid mixed-scope agent branches** - one work item per branch is the safest default
 
 ### Pull Request Standards
 

@@ -32,6 +32,28 @@ Explain where and how to add packages for different scopes.
 ### Additional Resources
 For comprehensive Nix agent workflows, see the [Nix Agent Guides](https://github.com/deepwatrcreatur/nix-agent-guides) repository. The patterns below are customized implementations used specifically in this project.
 
+### Planning And Parallel Work
+
+If this project uses a git-tracked work queue, point agents to a single entry
+file such as:
+
+- `docs/work-items/START-HERE.md`
+
+That file should explain:
+
+- how to choose the next available task
+- how to detect whether a task is already in progress
+- how to use suggested branch/worktree names
+- what invariants must be preserved
+
+Recommended rule:
+
+1. pick the highest-priority task still marked `ready`
+2. check whether the suggested branch/worktree already exists
+3. if it exists, assume another agent may already own it and skip to the next
+   `ready` item unless the task file says otherwise
+4. mark the chosen task `in-progress`
+
 ### Shell Environment
 - **Default shell**: Specify your default shell (Fish, Zsh, etc.)
 - **Shell compatibility**: Note any shell-specific considerations
@@ -51,6 +73,22 @@ hostname
 
 ## Project-Specific Patterns
 Add patterns specific to your project here.
+
+### Suggested Task Queue Files
+
+If your project is large enough to benefit from a reusable planning pattern,
+consider adding:
+
+```text
+docs/work-items/
+  START-HERE.md
+  README.md
+  agent-prompts.md
+  01-task-name.md
+```
+
+Use GitHub issues for discussion-heavy or multi-PR epics.
+Use git-tracked task files for concrete implementation work.
 
 ## Testing Before Committing
 - **Run build commands first** before committing
