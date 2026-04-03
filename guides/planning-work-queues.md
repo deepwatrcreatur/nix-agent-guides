@@ -116,6 +116,7 @@ Keep the file header authoritative.
 
 Recommended selection rule:
 
+0. refresh remote state first (`git fetch origin`)
 1. Read `START-HERE.md`
 2. Read the ordered list in `README.md`
 3. Pick the first item marked `ready`
@@ -123,6 +124,9 @@ Recommended selection rule:
 5. If it exists, assume another agent may own it and skip to the next `ready`
    item unless the file clearly says otherwise
 6. Mark the chosen item `in-progress`
+
+If the task queue lives in git, commit and push the status change promptly so
+other agents see that the item has been claimed.
 
 This uses both:
 
@@ -178,12 +182,22 @@ Stop depending on fragile kernel interface names for the router role.
 
 ## Recommended Workflow
 
-1. create a worktree/branch for one task
-2. update task status to `in-progress`
-3. implement and validate
-4. open PR
-5. merge
-6. delete the task file or replace it with a smaller follow-up file if needed
+1. `git fetch origin`
+2. create a worktree/branch for one task
+3. update task status to `in-progress`
+4. commit and push that claim promptly if multiple agents are active
+5. implement and validate
+6. open PR
+7. merge
+8. delete the task file or replace it with a smaller follow-up file if needed
+
+## Completion Handling
+
+The simplest default is to delete completed task files once merged.
+
+If a project wants more planning history, an `archive/` subfolder is also a
+reasonable option. The important part is to be consistent. For most repos, the
+delete-on-merge approach keeps the queue cleaner and easier for agents to scan.
 
 ## Good Fit vs Bad Fit
 
