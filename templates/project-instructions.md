@@ -58,6 +58,15 @@ Recommended rule:
 5. mark the chosen task `in-progress`
 6. commit and push that status change promptly if the queue is shared through git
 
+After implementing a task, prefer this PR loop:
+
+1. validate locally
+2. push branch and open PR
+3. wait briefly for CI and bot review
+4. read comments and checks
+5. fix substantive issues
+6. merge only after the PR is in a good state
+
 ### Shell Environment
 - **Default shell**: Specify your default shell (Fish, Zsh, etc.)
 - **Shell compatibility**: Note any shell-specific considerations

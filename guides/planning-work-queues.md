@@ -192,9 +192,15 @@ Stop depending on fragile kernel interface names for the router role.
 3. update task status to `in-progress`
 4. commit and push that claim promptly if multiple agents are active
 5. implement and validate
-6. open PR
-7. merge
-8. delete the task file or replace it with a smaller follow-up file if needed
+6. push branch and open PR
+7. wait briefly for CI and bot review to appear
+8. read comments and checks
+9. fix substantive issues
+10. merge
+11. delete the task file or replace it with a smaller follow-up file if needed
+
+The key point is that agents should not treat “opened PR” as the end of the
+workflow. They should usually do a second pass after review feedback arrives.
 
 ## Completion Handling
 
