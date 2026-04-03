@@ -4,29 +4,40 @@ A collection of best practices, workflows, and patterns for using AI coding agen
 
 ## Overview
 
-This repository provides comprehensive guidance for developers using AI coding agents (like Claude Code, GitHub Copilot, etc.) in Nix environments. It covers common patterns, tools, and workflows that make agent-assisted development more efficient and reliable.
+This repository provides guidance for developers using AI coding agents (like Claude Code, GitHub Copilot, etc.) in Nix environments. It covers common patterns, tools, and workflows that make agent-assisted development more efficient and reliable.
 
 ## Contents
 
 ### 📖 [Guides](./guides/)
 - **[Git Workflows](./guides/git-workflows.md)** - Git worktrees, branch management, and collaboration patterns
 - **[tmux Sessions](./guides/tmux-sessions.md)** - Remote session management and persistent workflows
-- **[Nix System Management](./guides/nix-systems.md)** - Rebuilds, testing, and multi-platform considerations
 - **[Project Setup](./guides/project-setup.md)** - Repository organization and configuration patterns
 - **[Best Practices](./guides/best-practices.md)** - General workflow tips and optimization strategies
-
-### 🎯 [Examples](./examples/)
-- **[Nix Flakes](./examples/nix-flakes/)** - Example flake structures and patterns
-- **[Workflows](./examples/workflows/)** - Common development workflow scripts
+- **[Review Bot Strategy](./guides/review-bot-strategy.md)** - How to spend limited premium review quota on the PRs that matter
 
 ### 📝 [Templates](./templates/)
 - **[Project Instructions](./templates/project-instructions.md)** - Template for project-specific agent guidance
 
 ## Quick Start
 
-1. **For New Projects**: Start with the [project setup guide](./guides/project-setup.md)
-2. **For Remote Work**: Check out [tmux session management](./guides/tmux-sessions.md)
-3. **For Complex Branching**: Learn [git worktree patterns](./guides/git-workflows.md)
+1. **For new projects**: Start with the [project setup guide](./guides/project-setup.md)
+2. **For remote work**: Check out [tmux session management](./guides/tmux-sessions.md)
+3. **For branching strategy**: Learn [git worktree patterns](./guides/git-workflows.md)
+
+## Suggested Improvements Roadmap
+
+The repository is useful as a concise starter pack, but these changes would significantly improve clarity and adoption:
+
+1. **Add missing linked content or remove stale links**
+   - Keep README links synchronized with actual files/directories to avoid dead ends.
+2. **Create examples and reference implementations**
+   - Add minimal, copy-paste-ready examples for `flake.nix`, `Makefile`, and CI checks.
+3. **Add contributor workflow docs**
+   - Include a short `CONTRIBUTING.md` with style, review expectations, and validation commands.
+4. **Add guide cross-linking and "when to use" sections**
+   - Help readers choose the right document quickly.
+5. **Add automated docs quality checks**
+   - Use markdown linting and link checking in CI to prevent regressions.
 
 ## Integration with Existing Projects
 
@@ -44,7 +55,7 @@ For comprehensive Nix agent workflows, see the [Nix Agent Guides](https://github
 
 ## Contributing
 
-Contributions are welcome! Please see our contributing guidelines and feel free to:
+Contributions are welcome! Please feel free to:
 - Submit new workflow patterns you've discovered
 - Improve existing documentation
 - Add examples from your own projects
