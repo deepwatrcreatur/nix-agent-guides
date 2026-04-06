@@ -32,6 +32,9 @@ Explain where and how to add packages for different scopes.
 ### Additional Resources
 For comprehensive Nix agent workflows, see the [Nix Agent Guides](https://github.com/deepwatrcreatur/nix-agent-guides) repository. The patterns below are customized implementations used specifically in this project.
 
+If your project exposes a local `qmd` index, tell agents when to use it for
+document retrieval and when to stick to `rg` for exact code search.
+
 ### Shell Environment
 - **Default shell**: Specify your default shell (Fish, Zsh, etc.)
 - **Shell compatibility**: Note any shell-specific considerations
