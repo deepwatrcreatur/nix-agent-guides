@@ -14,6 +14,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 - **[Nix System Management](./guides/nix-systems.md)** - Rebuilds, testing, and multi-platform considerations
 - **[Project Setup](./guides/project-setup.md)** - Repository organization and configuration patterns
 - **[Best Practices](./guides/best-practices.md)** - General workflow tips and optimization strategies
+- **[Qmd](./guides/qmd.md)** - When to use local semantic document search instead of ad hoc grep
 
 ### 🎯 [Examples](./examples/)
 - **[Nix Flakes](./examples/nix-flakes/)** - Example flake structures and patterns
@@ -27,6 +28,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 1. **For New Projects**: Start with the [project setup guide](./guides/project-setup.md)
 2. **For Remote Work**: Check out [tmux session management](./guides/tmux-sessions.md)
 3. **For Complex Branching**: Learn [git worktree patterns](./guides/git-workflows.md)
+4. **For Doc-Heavy Retrieval**: Use the [qmd guide](./guides/qmd.md)
 
 ## Integration with Existing Projects
 
