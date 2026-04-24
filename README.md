@@ -15,6 +15,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 - **[Project Setup](./guides/project-setup.md)** - Repository organization and configuration patterns
 - **[Best Practices](./guides/best-practices.md)** - General workflow tips and optimization strategies
 - **[Qmd](./guides/qmd.md)** - When to use local semantic document search instead of ad hoc grep
+- **[Agentic Orchestration](./guides/agentic-orchestration/README.md)** - Shared-state incident handling for multiple agents
 
 ### 🎯 [Examples](./examples/)
 - **[Nix Flakes](./examples/nix-flakes/)** - Example flake structures and patterns
@@ -22,6 +23,10 @@ This repository provides comprehensive guidance for developers using AI coding a
 
 ### 📝 [Templates](./templates/)
 - **[Project Instructions](./templates/project-instructions.md)** - Template for project-specific agent guidance
+- **[Incident Summary](./templates/incident-summary.md)** - Structured summary template for active incidents
+- **[Research Ledger](./templates/research-ledger.md)** - Append-only probe log template
+- **[Active Discussion](./templates/active-discussion.md)** - Signed reasoning template for competing positions
+- **[ADR](./templates/adr.md)** - Decision record template for durable technical pivots
 
 ## Quick Start
 
@@ -29,6 +34,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 2. **For Remote Work**: Check out [tmux session management](./guides/tmux-sessions.md)
 3. **For Complex Branching**: Learn [git worktree patterns](./guides/git-workflows.md)
 4. **For Doc-Heavy Retrieval**: Use the [qmd guide](./guides/qmd.md)
+5. **For Multi-Agent Incidents**: Use the [agentic orchestration standard](./guides/agentic-orchestration/README.md)
 
 ## Integration with Existing Projects
 
@@ -43,6 +49,10 @@ Example integration:
 ## Additional Resources
 For comprehensive Nix agent workflows, see the [Nix Agent Guides](https://github.com/deepwatrcreatur/nix-agent-guides) repository. The patterns below are customized implementations used specifically in this project.
 ```
+
+For shared incident work, it is reasonable to point directly at the
+agent-orchestration guide bundle and copy the templates into a repo-local
+`docs/incidents/` tree.
 
 ## Contributing
 
