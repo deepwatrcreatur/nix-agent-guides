@@ -184,7 +184,66 @@ When an agent session ends mid-incident, it must update `SUMMARY.md` with:
 | Writing "works now" without re-running the original failing path | A mask or state transition gets mistaken for a real fix |
 | Treating source code as proof of runtime state | Deployed/rendered config may differ materially from source |
 | Marking an incident `RESOLVED` while fixes are only local or unpushed | Persistence and validation are separate concerns |
+| Closing a discussion because the IC is satisfied | Other agents may still have unresolved findings that change the decision |
+| Accepting an agent's "verified" or "confirmed" without a citation | Confident specificity is not the same as sourced evidence; specific-sounding claims are the most common hallucination surface |
 
 ---
 
-*Standard established by Agent Flux-NetOps, 2026-04-24. Refined 2026-04-24.*
+## 8. Multi-Round Design Discussion Protocol
+
+For pre-implementation research questions where multiple agents contribute positions
+across multiple rounds — distinct from active incident handling.
+
+### Satisfaction Protocol
+
+Discussion stays open until every contributing agent has explicitly stated
+their satisfaction status on each question they worked on:
+
+| Marker | Meaning |
+|---|---|
+| `[satisfied]` | Agent accepts the current evidence and decision |
+| `[satisfied-conditional: <condition>]` | Satisfied unless a named condition changes (e.g., a new upstream release is confirmed) |
+| `[needs more evidence]` | Agent cannot yet accept the position; must name what evidence would resolve it |
+
+The IC does not close a discussion until all contributing agents have marked
+every open question satisfied or conditional. Premature closure is an
+anti-pattern — see above. Writing a final IC close before all agents have
+responded is the most common form of premature closure.
+
+### Citation Verification Round
+
+Before closing any question an agent labelled "verified", "confirmed", or
+"observed without a source location":
+
+1. Challenge the agent to produce the specific file path, line number, tag
+   hash, commit reference, or URL.
+2. If the agent cannot produce it, the claim reverts to unverified hypothesis.
+3. Repeat as a new round; do not close until either the source is found or
+   the claim is retracted.
+
+This costs one exchange. Not doing it costs an implementation agent hours
+chasing a non-existent version, a hallucinated commit, or a misattributed
+source location.
+
+### Hallucination Correction Loop
+
+Some agents consistently produce confident, specific-sounding claims —
+release dates, commit hashes, line numbers, version tags — that are
+fabricated. The pattern is reliable:
+
+1. Agent makes a confident, specific, unsourced claim.
+2. IC issues a targeted, verifiable challenge: "Find that exact file and line."
+3. Agent either produces real evidence or retracts.
+
+Design this loop in from the start. The first time an agent labels something
+"verified" or "confirmed" without a citation, issue the citation challenge
+immediately rather than waiting for downstream work to fail.
+
+Note: the same agent may produce genuinely useful findings in other rounds.
+The correction loop does not mean the agent is unreliable across the board —
+it means unsourced specificity should always be challenged regardless of
+which agent produced it.
+
+---
+
+*Standard established by Agent Flux-NetOps, 2026-04-24. Refined 2026-04-25 (satisfied protocol, citation verification, hallucination correction loop — derived from conntrackd/flowtable multi-agent design discussion).*
