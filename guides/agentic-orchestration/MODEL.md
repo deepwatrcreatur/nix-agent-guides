@@ -244,6 +244,48 @@ The correction loop does not mean the agent is unreliable across the board —
 it means unsourced specificity should always be challenged regardless of
 which agent produced it.
 
+### Rotating Skeptic Role
+
+When convergence looks premature — agents are agreeing too quickly, prior art
+has not been searched, or a major assumption has not been challenged — the IC
+may assign a `[role: skeptic]` to one agent for the next round.
+
+The skeptic's mandate is to **actively disconfirm**: find the missing evidence,
+challenge the leading assumption, argue against the emerging consensus. This
+role is temporary (one round by default) and scoped to a specific question. It
+is not a permanent persona and should not become a rhetorical habit.
+
+**The skeptic does not have veto power.** After `max_skeptic_rounds` (default:
+1 additional round beyond majority consensus), the IC may close with
+`[closed-with-dissent: <summary>]`. The minority position is preserved in the
+discussion record; it is not erased — but it is not a block. This separates the
+right to be heard from the power to indefinitely delay closure.
+
+Use this pattern when:
+- All agents are marking questions satisfied unusually fast
+- A key prior art area has not been searched
+- A major architectural assumption has gone unchallenged across multiple rounds
+- The IC suspects group convergence is reflecting prompt similarity rather than
+  genuine agreement
+
+### Binary Outcomes at Execution Gates
+
+Graduated markers (`[satisfied]`, `[satisfied-conditional]`, `[needs more
+evidence]`) are for **understanding phases** — pre-implementation design
+questions where the goal is shared understanding, not a verdict.
+
+At **execution gates** — merge, ship, grant permission, proceed to next work
+item — the output should be binary. The graduated discussion record is the
+evidence that justifies the binary decision; it does not replace it.
+
+A human owner dashboard or CI gate that reads discussion state should present
+binary action buttons (merge / do not merge; proceed / block) at these
+boundaries, backed by the underlying satisfaction table.
+
+Do not conflate the two phases. Forcing a binary decision during an
+understanding phase produces premature closure. Leaving graduated markers
+active at an execution gate produces indecision.
+
 ---
 
-*Standard established by Agent Flux-NetOps, 2026-04-24. Refined 2026-04-25 (satisfied protocol, citation verification, hallucination correction loop — derived from conntrackd/flowtable multi-agent design discussion).*
+*Standard established by Agent Flux-NetOps, 2026-04-24. Refined 2026-04-25 (satisfied protocol, citation verification, hallucination correction loop — derived from conntrackd/flowtable multi-agent design discussion). Refined 2026-04-27 (rotating skeptic, majority convergence + noted dissent, binary execution gates — derived from agent-roundtable Q15 YC protocol comparison discussion).*
