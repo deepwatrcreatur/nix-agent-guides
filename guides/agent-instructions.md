@@ -25,9 +25,15 @@ enough:
 - The online file can change after a commit. The in-repo copy shows the rules
   that applied when that code was written.
 
+- Mutable content from another repository must not be able to steer agents.
+  The block therefore labels the URL as reference only and ranks the repo's
+  own text, including the summary, above it. A compromised
+  `CONVENTIONS.md` can then at worst mislead about style, not inject
+  commands.
+
 So the essential rules live in the in-repo block, and `CONVENTIONS.md` holds
 the full and newest text. Change both together, bump the block's version
-(`v2`, ...), and re-run the sync script.
+(`v3`, ...), and re-run the sync script.
 
 ## Rules for each repo
 
