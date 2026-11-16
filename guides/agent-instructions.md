@@ -51,5 +51,8 @@ scripts/sync-agents-core.sh ~/flakes-worktrees/<repo>/main ...
 ```
 
 The script appends the block if missing, replaces it if present, and creates
-`AGENTS.md` and `CLAUDE.md` (`@AGENTS.md`) when absent. It does not touch an
+`AGENTS.md` and `CLAUDE.md` (`@AGENTS.md`) when absent. If `AGENTS.md` is a
+symlink, it updates the target. It refuses (and changes nothing) when the
+markers are missing, duplicated or reversed. It does not otherwise touch an
 existing `CLAUDE.md`; merge a standalone one into `AGENTS.md` by hand.
+Tests: `tests/sync-agents-core-test.sh`.
