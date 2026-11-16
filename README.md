@@ -6,6 +6,8 @@ A collection of best practices, workflows, and patterns for using AI coding agen
 
 This repository provides comprehensive guidance for developers using AI coding agents (like Claude Code, GitHub Copilot, etc.) in Nix environments. It covers common patterns, tools, and workflows that make agent-assisted development more efficient and reliable.
 
+**Shared conventions for all repos: [CONVENTIONS.md](./CONVENTIONS.md)** (canonical; each repo's `AGENTS.md` carries a synced summary).
+
 ## Contents
 
 ### 📖 [Guides](./guides/)
