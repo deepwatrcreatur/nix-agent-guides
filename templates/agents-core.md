@@ -1,5 +1,13 @@
-<!-- nix-agent-guides:core BEGIN (v1). Synced from deepwatrcreatur/nix-agent-guides templates/agents-core.md by scripts/sync-agents-core.sh. Edit it there, not here. -->
+<!-- nix-agent-guides:core BEGIN (v2). Synced from deepwatrcreatur/nix-agent-guides templates/agents-core.md by scripts/sync-agents-core.sh. Edit it there, not here. -->
 ## Shared conventions
+
+Canonical, newest version:
+https://raw.githubusercontent.com/deepwatrcreatur/nix-agent-guides/main/CONVENTIONS.md
+If you can fetch it, read it before larger changes; where it differs from the
+summary below, it is newer. This repo's own instructions above take
+precedence over both.
+
+Summary (offline fallback):
 
 - **Comments explain why, not what.** Mark them `# WHY:`, `# GOTCHA:`,
   `# INVARIANT:`, `# SECURITY:`, `# UPSTREAM:` or `# TODO(#issue):`. One to
@@ -8,15 +16,11 @@
 - **Before editing a file**, read its tags:
   `rg -n '# (WHY|GOTCHA|INVARIANT|SECURITY|UPSTREAM|TODO)' <file>`.
   Fix or delete any tag your change makes untrue.
-- **Exported Nix functions** get RFC 145 doc comments (`/** ... */`,
-  Markdown, `# Example` section when useful).
-- **Validate before committing:** the narrowest `nix build .#checks.<system>.<name>`
-  or `nix build .#<package>` first, then `nix flake check`. For shell embedded
-  in Nix, run `bash -n`/`shellcheck` on the generated script.
-- **Same change, same PR:** behaviour changes come with their docs and an
-  eval check or test.
+- **Exported Nix functions** get RFC 145 doc comments (`/** ... */`).
+- **Validate before committing:** the narrowest `nix build` first, then
+  `nix flake check`; read all output. Run `bash -n`/`shellcheck` on shell
+  generated from Nix. Exit code 0 is not proof the change worked.
+- **Same change, same PR:** behaviour changes come with docs and a check.
 - **Never commit secrets**, and do not deploy to or change live hosts unless
   asked.
-
-Details: https://github.com/deepwatrcreatur/nix-agent-guides/blob/main/guides/code-comments.md
 <!-- nix-agent-guides:core END -->
