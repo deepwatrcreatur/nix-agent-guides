@@ -36,8 +36,8 @@ Details and sources: [guides/code-comments.md](guides/code-comments.md).
   generated script.
 - "active (exited)" or exit code 0 is not proof. Check the result the change
   was meant to produce.
-- Never commit conflict markers. Check with
-  `git diff --cached | grep -E '^\+(<<<<<<<|=======|>>>>>>>)'`.
+- Never commit conflict markers. `git diff --cached --check` reports them
+  ("leftover conflict marker").
 
 ## Changes and PRs
 
