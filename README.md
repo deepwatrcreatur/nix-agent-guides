@@ -14,6 +14,8 @@ This repository provides comprehensive guidance for developers using AI coding a
 - **[Nix System Management](./guides/nix-systems.md)** - Rebuilds, testing, and multi-platform considerations
 - **[Project Setup](./guides/project-setup.md)** - Repository organization and configuration patterns
 - **[Best Practices](./guides/best-practices.md)** - General workflow tips and optimization strategies
+- **[Code Comments](./guides/code-comments.md)** - RFC 145 doc comments and `# WHY:`-style rationale tags
+- **[Agent Instruction Files](./guides/agent-instructions.md)** - Keeping AGENTS.md consistent across many repos
 - **[Qmd](./guides/qmd.md)** - When to use local semantic document search instead of ad hoc grep
 - **[Agentic Orchestration](./guides/agentic-orchestration/README.md)** - Shared-state incident handling for multiple agents
 
@@ -23,6 +25,8 @@ This repository provides comprehensive guidance for developers using AI coding a
 
 ### 📝 [Templates](./templates/)
 - **[Project Instructions](./templates/project-instructions.md)** - Template for project-specific agent guidance
+- **[Shared AGENTS.md block](./templates/agents-core.md)** - Conventions copied into every repo by `scripts/sync-agents-core.sh`
+- **[Packaging repo AGENTS.md](./templates/AGENTS.packaging.md)** - Starting point for single-application flakes
 - **[Incident Summary](./templates/incident-summary.md)** - Structured summary template for active incidents
 - **[Research Ledger](./templates/research-ledger.md)** - Append-only probe log template
 - **[Active Discussion](./templates/active-discussion.md)** - Signed reasoning template for competing positions
@@ -37,6 +41,11 @@ This repository provides comprehensive guidance for developers using AI coding a
 5. **For Multi-Agent Incidents**: Use the [agentic orchestration standard](./guides/agentic-orchestration/README.md)
 
 ## Integration with Existing Projects
+
+Preferred: carry the shared block (`templates/agents-core.md`) in each repo's
+`AGENTS.md` via `scripts/sync-agents-core.sh`, so review bots and cloud agents
+that only see one repo still get the conventions. See
+[Agent Instruction Files](./guides/agent-instructions.md).
 
 These guides are designed to be referenced from project-specific agent instruction files. The recommended approach is:
 
