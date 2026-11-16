@@ -21,7 +21,7 @@ Raw URL for agents: <https://raw.githubusercontent.com/deepwatrcreatur/nix-agent
   protect. Longer reasoning goes in `docs/` with a pointer
   (`# WHY: docs/x.md#heading`).
 - Before editing a file, read its tags:
-  `rg -n '# (WHY|GOTCHA|INVARIANT|SECURITY|UPSTREAM|TODO)' <file>`.
+  `grep -nE '# (WHY|GOTCHA|INVARIANT|SECURITY|UPSTREAM|TODO)' <file>`.
   Fix or delete any tag your change makes untrue.
 - Exported Nix functions get RFC 145 doc comments (`/** ... */`, Markdown,
   `# Example` section when useful). Module options are documented by their
@@ -32,7 +32,9 @@ Details and sources: [guides/code-comments.md](guides/code-comments.md).
 ## Validation
 
 - Build the narrowest thing first (`nix build .#checks.<system>.<name>`,
-  `nix build .#<package>`), then `nix flake check` when practical.
+  `nix build .#<package>`), then `nix flake check` when practical. A flake
+  with only modules or a library has nothing to build: `nix flake check` plus
+  evaluating a configuration that uses the module is the validation.
 - Read all build output, not just the last line. Warnings and silently failed
   activation scripts count.
 - Shell embedded in Nix: build it and run `bash -n` and `shellcheck` on the
