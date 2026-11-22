@@ -20,6 +20,7 @@ This repository provides comprehensive guidance for developers using AI coding a
 - **[Agent Instruction Files](./guides/agent-instructions.md)** - Keeping AGENTS.md consistent across many repos
 - **[Qmd](./guides/qmd.md)** - When to use local semantic document search instead of ad hoc grep
 - **[Agentic Orchestration](./guides/agentic-orchestration/README.md)** - Shared-state incident handling for multiple agents
+- **[Beads Work Queues](./guides/beads.md)** - beads_rust queues shared by several agents on several machines: upstream practice and our rules
 
 ### 🎯 [Examples](./examples/)
 - **[Nix Flakes](./examples/nix-flakes/)** - Example flake structures and patterns
