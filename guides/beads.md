@@ -60,7 +60,7 @@ Read on 2026-11-21 from beads_rust's README, AGENTS.md,
   machine keeps its own clone; git carries the JSONL between them.
 - **Name yourself.** Pass `--actor <agent>` (for example `claude`, `codex`) so
   claims and comments say who made them.
-- **Bead state must not sit on long-lived branches.** A claim nobody else can
+- **Bead state must not sit on long-lived branches** (moot with the queue branch). A claim nobody else can
   see is no claim. On 2026-11-21 a branch carried 22 commits of unpushed bead
   state for hours while another agent read a stale queue, and two branches
   minted the same child ID.
@@ -70,29 +70,54 @@ Read on 2026-11-21 from beads_rust's README, AGENTS.md,
   a deployed host, put those checks in the deployment/verification bead, or
   neither can close first.
 
-## Workflow today
+## Workflow: the shared queue branch
 
-Until the queue branch below exists, the shared queue is the copy on `main`.
-A topic branch's own `git pull` does not bring it in, so start from
-`origin/main`:
+Repos with a queue keep it on an orphan **`beads-queue`** branch that holds
+only `.beads/`; there is no `.beads/` on `main`. (Not `beads`: that name
+conflicts with existing `beads/*` branches.) Agents use **`beads-q`**
+(unified-nix-configuration `pkgs/beads-queue.sh`, installed by
+`programs.beads`), which wraps `beads-rust` and works from any worktree:
 
 ```sh
-git fetch origin && git rebase origin/main && beads-rust sync --import-only
-beads-rust list --status in_progress --json           # who is on what
-beads-rust ready --json                               # pick
-beads-rust update <id> --claim --actor <agent>        # claim
-beads-rust sync --flush-only && git add -- .beads/issues.jsonl
-# land the claim on its own, in a small commit or PR, right away
-# ... work on a feature branch; close in the PR that does the work ...
-beads-rust close <id> --reason "<what, PR link>" --actor <agent>
+beads-q ready --json
+beads-q show <id>
+beads-q update <id> --claim --actor <agent>
+beads-q comments add <id> "<note>" --actor <agent>
+beads-q close <id> --reason "<what, PR link>" --actor <agent>
 ```
 
-- Stage only `.beads/issues.jsonl`. The rest of `.beads/` (database, WAL,
-  `beads.base.jsonl` merge snapshots, history backups) is local.
-- A closure committed in a PR lands when the PR merges; reopen the bead if the
-  PR is abandoned.
-- Until a claim reaches `main`, another machine can claim the same bead. Check
-  in-progress beads and open PRs first, and keep that window short.
+Each call:
+
+1. fetches `beads-queue` and hard-resets this machine's queue worktree
+   (`~/flakes-worktrees/<repo>/beads`, detached) to the remote tip. It holds
+   nothing but the queue, so nothing local is lost;
+2. deletes and rebuilds the SQLite cache from `issues.jsonl` (upstream treats
+   the database as disposable, and 0.1.45's import skips records that are not
+   strictly newer, so a rebuild is the only reliable refresh);
+3. runs the command;
+4. for write commands, exports, commits and pushes. If the push is rejected
+   because another agent pushed first, it starts again at step 1. A claim
+   someone else now holds then fails with `CLAIM_CONFLICT` (exit 4); a create
+   gets the next free child id. No JSONL merge ever happens.
+
+A per-repo `flock` serialises agents on the same machine; `git push` is the
+lock between machines. Tested (2026-11-22) with two simulated hosts: a
+concurrent claim of one bead left one winner and one `CLAIM_CONFLICT`, and
+three concurrent child creates under one parent got distinct ids.
+
+Rules:
+
+- Claim before starting; close after the PR merges, citing it.
+- Feature branches and PRs never touch `.beads/`.
+- Don't edit or run `git` in the queue worktree; every call resets it.
+
+### Repos not yet on the queue branch
+
+`nix-clan-homelab` still keeps `.beads/` on `main` until its in-flight
+branches land. There, start from `origin/main`
+(`git fetch origin && git rebase origin/main && beads-rust sync --import-only`),
+stage only `.beads/issues.jsonl`, land claims quickly, and don't hand-edit a
+conflicted `issues.jsonl` (see the recovery below).
 
 ### Recovering from a conflicted `issues.jsonl`
 
@@ -112,27 +137,3 @@ beads-rust sync --flush-only && git add -- .beads/issues.jsonl
 Verified on 0.1.45 (2026-11-22): after a hand edit, a plain import kept the
 old record; after deleting the cache, the import took the edit.
 
-## Planned: a shared queue branch
-
-To give every agent on every machine one queue, and to stop code PRs from
-conflicting in `.beads/issues.jsonl`:
-
-- Each repo gets an orphan branch `beads` that contains only `.beads/`. With
-  no `flake.nix` on it, CI has nothing to build.
-- Each machine has one worktree of it, `~/flakes-worktrees/<repo>/beads`.
-  Agents point `beads-rust` at it with `BEADS_DIR=<worktree>/.beads`, so the
-  queue no longer depends on which feature branch is checked out.
-- Every mutation is fetch → reset to `origin/beads` → rebuild the cache →
-  mutate → `sync --flush-only` → commit → push. `git push` is the
-  cross-machine lock: if two agents claim the same bead, the second push is
-  rejected. That agent resets its queue worktree to `origin/beads` (it holds
-  nothing but the queue, so its only local change is the rejected commit),
-  rebuilds the cache, sees the other claim and picks other work. No JSONL
-  merge is ever needed, because each push starts from the remote tip.
-- Feature branches and PRs never touch `.beads/`. A bead closes on the queue
-  branch after its PR merges, citing the PR.
-- A small helper script wraps the steps above, and a user timer fetches
-  regularly so each machine sees the other's pushes.
-
-When this lands, each repo's AGENTS.md switches to it and this section moves
-to "Workflow today".
