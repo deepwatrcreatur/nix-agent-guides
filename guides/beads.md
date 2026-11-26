@@ -111,15 +111,16 @@ Rules:
 - Feature branches and PRs never touch `.beads/`.
 - Don't edit or run `git` in the queue worktree; every call resets it.
 
-### Repos not yet on the queue branch
-
-`nix-clan-homelab` still keeps `.beads/` on `main` until its in-flight
-branches land. There, start from `origin/main`
-(`git fetch origin && git rebase origin/main && beads-rust sync --import-only`),
-stage only `.beads/issues.jsonl`, land claims quickly, and don't hand-edit a
-conflicted `issues.jsonl` (see the recovery below).
+All three repos now keep their queue on `beads-queue`; `nix-clan-homelab`
+moved on 2026-11-26 (its PR #72, after its discussion 01). There the branch
+is protected against force-push and deletion, a GitHub Actions workflow on
+the branch runs a duplicate-id and dangling-dependency check on every push,
+and `checks.no-beads-on-main` fails if `.beads/` reappears on `main`.
 
 ### Recovering from a conflicted `issues.jsonl`
+
+Only relevant to a queue kept on a code branch, which none of these repos
+does any more.
 
 Don't hand-edit conflicted lines. beads-rust 0.1.45 imports an existing
 record only if its `updated_at` is strictly newer, records the file as
