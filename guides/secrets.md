@@ -46,12 +46,20 @@ gh-fnox pr list
 fnox exec -- gh pr create --fill     # same, through fnox exec
 ```
 
-`git push` over HTTPS: git's credential helper is `gh auth git-credential`,
-which reads `GITHUB_TOKEN` from its environment.
+`git push` over HTTPS uses `git-credential-fnox` (fnox-flake), which gives
+git the fnox token and never reads a token file. Where Home Manager enables
+`programs.fnox.gitCredentialHelper`, plain `git push` already uses it.
+Otherwise, or with the global git config off (`GIT_CONFIG_GLOBAL=/dev/null`),
+name it for the one command; the empty value first drops other helpers, such
+as `store`, that would also receive the token:
 
 ```bash
-fnox exec -- git push
+git -c credential.helper= -c credential.helper=fnox push
 ```
+
+On machines without the helper, `fnox exec -- git push` still works with
+`gh auth git-credential`, which reads `GITHUB_TOKEN` from its environment.
+Never write an inline helper that `cat`s a token file.
 
 `curl` with a bearer token, header sent on stdin so it is not in `ps`:
 
