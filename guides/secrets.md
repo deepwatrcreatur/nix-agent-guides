@@ -56,8 +56,16 @@ fnox exec -- git push
 `curl` with a bearer token, header sent on stdin so it is not in `ps`:
 
 ```bash
-fnox exec -- sh -c 'printf "Authorization: Bearer %s\n" "$PROXMOX_API_TOKEN" |
-  curl -sS -H @- https://pve.example/api2/json/version'
+fnox exec -- sh -c 'printf "Authorization: Bearer %s\n" "$GITHUB_TOKEN" |
+  curl -sS -H @- https://api.github.com/user'
+```
+
+Services with their own scheme only change the header line. Proxmox VE, with
+`PROXMOX_API_TOKEN` holding `USER@REALM!TOKENID=UUID`:
+
+```bash
+fnox exec -- sh -c 'printf "Authorization: PVEAPIToken=%s\n" "$PROXMOX_API_TOKEN" |
+  curl -sS -H @- https://pve.example:8006/api2/json/version'
 ```
 
 Nix with a GitHub access token (avoids API rate limits), passed through
@@ -75,8 +83,11 @@ command fnox starts, not in your shell, where it is empty.
 1. Declare it in the Home Manager configuration (`programs.fnox`); add a
    `seedSecretSources` entry if a file (for example an agenix user secret)
    should seed it on activation.
-2. Store a value without exposing it: `fnox set NAME` prompts with hidden
-   input, or reads stdin when piped. Never pass the value as an argument.
+2. Store a value without exposing it: `fnox set --provider age NAME`
+   prompts with hidden input, or reads stdin when piped. Never pass the
+   value as an argument. Name the provider so the value is encrypted; check
+   that `FNOX_CONFIG` points at `~/.config/fnox/config.toml`, or fnox looks
+   for a `fnox.toml` in the current directory instead.
 3. Check it without printing it: `fnox list` shows names, and the hash
    command above shows whether the value is the one you expect.
 
