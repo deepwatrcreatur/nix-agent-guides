@@ -85,11 +85,16 @@ command fnox starts, not in your shell, where it is empty.
 1. Declare it in the Home Manager configuration (`programs.fnox`); add a
    `seedSecretSources` entry if a file (for example an agenix user secret)
    should seed it on activation.
-2. Store a value without exposing it: `fnox set --provider age NAME`
-   prompts with hidden input, or reads stdin when piped. Never pass the
-   value as an argument. Name the provider so the value is encrypted; check
-   that `FNOX_CONFIG` points at `~/.config/fnox/config.toml`, or fnox looks
-   for a `fnox.toml` in the current directory instead.
+2. Store a value without exposing it:
+
+   ```bash
+   fnox -c ~/.config/fnox/config.toml set --provider age NAME
+   ```
+
+   It prompts with hidden input, or reads stdin when piped. Never pass the
+   value as an argument. Naming the file and the provider keeps the value
+   encrypted in your user config, even when the current directory has a
+   `fnox.toml` of its own.
 3. Check it without printing it: `fnox list` shows names, and the hash
    command above shows whether the value is the one you expect.
 
