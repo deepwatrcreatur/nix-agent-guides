@@ -69,10 +69,12 @@ fnox exec -- sh -c 'printf "Authorization: PVEAPIToken=%s\n" "$PROXMOX_API_TOKEN
 ```
 
 Nix with a GitHub access token (avoids API rate limits), passed through
-`NIX_CONFIG` rather than `--option`:
+`NIX_CONFIG` rather than `--option`, and appended so settings already in
+`NIX_CONFIG` (such as enabling flakes) are kept:
 
 ```bash
-fnox exec -- sh -c 'NIX_CONFIG="access-tokens = github.com=$GITHUB_TOKEN" exec nix flake update'
+fnox exec -- sh -c 'NIX_CONFIG="$NIX_CONFIG
+access-tokens = github.com=$GITHUB_TOKEN" exec nix flake update'
 ```
 
 The single quotes matter in the last two: `$VAR` must expand inside the
@@ -104,7 +106,8 @@ fnox exec -- sh -c 'printf "Authorization: Bearer %s\n" "$GITHUB_TOKEN" |
 ```
 
 200 means the token works; 401 means the value fnox returned is not a valid
-token (not decrypted, or revoked).
+token (not decrypted, or revoked). Then every `fnox exec` example above fails
+too, `git push` included: stop and tell the operator, as below.
 
 ## When fnox is unavailable
 
