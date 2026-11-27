@@ -88,26 +88,32 @@ command fnox starts, not in your shell, where it is empty.
 2. Store a value without exposing it:
 
    ```bash
-   fnox -c ~/.config/fnox/config.toml set --provider age NAME
+   fnox -c "${FNOX_CONFIG:-$HOME/.config/fnox/config.toml}" set --provider age NAME
    ```
 
    It prompts with hidden input, or reads stdin when piped. Never pass the
-   value as an argument. Naming the file and the provider keeps the value
-   encrypted in your user config, even when the current directory has a
-   `fnox.toml` of its own.
-3. Check it without printing it: `fnox list` shows names, and the hash
-   command above shows whether the value is the one you expect.
+   value as an argument. Naming the file (the one the wrappers read) and the
+   provider keeps the value encrypted in your user config, even when the
+   current directory has a `fnox.toml` of its own.
+3. Check it without printing it:
+   `fnox -c "${FNOX_CONFIG:-$HOME/.config/fnox/config.toml}" list` shows
+   names, and the probe below shows whether the value works.
 
 ## Checking that a secret works
 
 Test the credential itself, not just the command. When fnox's value is
 empty or malformed, `gh-fnox` falls back to a token file or to gh's own
 stored login, so it can look healthy while `fnox exec` hands out a useless
-value. Probe the value directly, for example:
+value. Probe the value directly, against the config the wrappers read and with the
+variable unset first: for a secret with no stored value, `fnox exec` passes
+the shell's own value through, so a token exported elsewhere would make the
+probe pass while fnox holds nothing.
 
 ```bash
-fnox exec -- sh -c 'printf "Authorization: Bearer %s\n" "$GITHUB_TOKEN" |
-  curl -sS -o /dev/null -w "%{http_code}\n" -H @- https://api.github.com/user'
+env -u GITHUB_TOKEN -u GH_TOKEN \
+  fnox -c "${FNOX_CONFIG:-$HOME/.config/fnox/config.toml}" exec -- sh -c '
+  printf "Authorization: Bearer %s\n" "$GITHUB_TOKEN" |
+    curl -sS -o /dev/null -w "%{http_code}\n" -H @- https://api.github.com/user'
 ```
 
 200 means the token works; 401 means the value fnox returned is not a valid
