@@ -33,7 +33,7 @@ enough:
 
 So the essential rules live in the in-repo block, and `CONVENTIONS.md` holds
 the full and newest text. Change both together, bump the block's version
-(`v3`, ...), and re-run the sync script.
+(`v4`, ...), and re-run the sync script.
 
 ## Rules for each repo
 
