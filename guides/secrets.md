@@ -95,20 +95,23 @@ command fnox starts, not in your shell, where it is empty.
    value as an argument. Naming the file (the one the wrappers read) and the
    provider keeps the value encrypted in your user config, even when the
    current directory has a `fnox.toml` of its own.
-3. Check it without printing it: `fnox list` shows names, and the hash
-   command above shows whether the value is the one you expect.
+3. Check it without printing it:
+   `fnox -c "${FNOX_CONFIG:-$HOME/.config/fnox/config.toml}" list` shows
+   names, and the probe below shows whether the value works.
 
 ## Checking that a secret works
 
 Test the credential itself, not just the command. When fnox's value is
 empty or malformed, `gh-fnox` falls back to a token file or to gh's own
 stored login, so it can look healthy while `fnox exec` hands out a useless
-value. Probe the value directly, with the variable unset first: for a secret with
-no stored value, `fnox exec` passes the shell's own value through, so a token
-exported elsewhere would make the probe pass while fnox holds nothing.
+value. Probe the value directly, against the config the wrappers read and with the
+variable unset first: for a secret with no stored value, `fnox exec` passes
+the shell's own value through, so a token exported elsewhere would make the
+probe pass while fnox holds nothing.
 
 ```bash
-env -u GITHUB_TOKEN -u GH_TOKEN fnox exec -- sh -c '
+env -u GITHUB_TOKEN -u GH_TOKEN \
+  fnox -c "${FNOX_CONFIG:-$HOME/.config/fnox/config.toml}" exec -- sh -c '
   printf "Authorization: Bearer %s\n" "$GITHUB_TOKEN" |
     curl -sS -o /dev/null -w "%{http_code}\n" -H @- https://api.github.com/user'
 ```
