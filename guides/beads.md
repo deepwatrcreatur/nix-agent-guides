@@ -107,9 +107,18 @@ three concurrent child creates under one parent got distinct ids.
 
 Rules:
 
-- Claim before starting; close after the PR merges, citing it.
+- Claim before starting; close after the PR merges, citing it. Beads you
+  just created are not reserved for you: other agents pick up new beads
+  within minutes.
 - Feature branches and PRs never touch `.beads/`.
 - Don't edit or run `git` in the queue worktree; every call resets it.
+- Name the bead in the PR description on its own line: `Bead: <id>` (several
+  allowed) or `Bead: none (<reason>)`. In `nix-clan-homelab` a required
+  `bead-reference` check fails unless each named bead is claimed
+  (`in_progress`) on `beads-queue`; editing the description re-runs it.
+- `owner:` labels say who may take a bead. `owner:any` is open to every
+  agent. `owner:claude` beads touch decrypted secrets or live hosts and are
+  taken only by Claude working with the operator.
 
 All three repos now keep their queue on `beads-queue`; `nix-clan-homelab`
 moved on 2026-11-26 (its PR #72, after its discussion 01). There the branch
